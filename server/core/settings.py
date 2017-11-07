@@ -95,7 +95,7 @@ DATABASES = {
 
 # Internationalization
 # https://docs.djangoproject.com/en/dev/topics/i18n/
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'pt-br'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_L10N = True
@@ -160,6 +160,7 @@ AUTH_USER_MODEL = 'accounts.BaseUser'
 
 # REST API
 REST_FRAMEWORK = {
+    'UNICODE_JSON': True,
     # Use hyperlinked styles by default.
     # Only used if the `serializer_class` attribute is not set on a view.
     'DEFAULT_MODEL_SERIALIZER_CLASS':
@@ -170,7 +171,14 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         # 'rest_framework.permissions.IsAdminUser'
         'rest_framework.permissions.AllowAny'
-    ]
+    ],
+    # 'DEFAULT_RENDERER_CLASSES': (
+    #      #UnicodeJSONRenderer has an ensure_ascii = False attribute,
+    #      #thus it will not escape characters.
+    #     'rest_framework.renderers.UnicodeJSONRenderer',
+    #      #You only need to keep this one if you're using the browsable API
+    #     'rest_framework.renderers.BrowsableAPIRenderer'
+    # )
 }
 
 # Logging and error reporting
