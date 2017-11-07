@@ -12,8 +12,8 @@ admin.site.index_title = ugettext_lazy('Site administration')
 urlpatterns = patterns('',
                        url(r'^admin/', include(admin.site.urls)),
                        # url(r'^jogo/', include('jogo.urls')),
-                       url(r'^api/v1/', include('api.urls')),
-                       url(r'^docs/', include('rest_framework_docs.urls')),
+                       url(r'^api/v1/', include('pergunta.urls')),
+                       url(r'^api|^', include('rest_framework_docs.urls')),
 )
 
 # Add client urls for debug mode

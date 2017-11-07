@@ -1,44 +1,45 @@
 from django.contrib.auth import authenticate
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
+from core.users.models import Usuario
 from django.utils.translation import ugettext_lazy as _
 
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 
 
-class UserRegistrationSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True)
+class UsuarioRegistrationSerializer(serializers.ModelSerializer):
+    senha = serializers.CharField(write_only=True)
     confirm_password = serializers.CharField(write_only=True)
 
     class Meta:
-        model = User
-        fields = ("id", "username", "email", "password", "confirm_password", "date_joined")
+        model = Usuario
+        fields = ("id", "email", "senha", "confirm_password")
 
     def create(self, validated_data):
         del validated_data["confirm_password"]
-        return super(UserRegistrationSerializer, self).create(validated_data)
+        return super(UsuarioRegistrationSerializer, self).create(validated_data)
 
     def validate(self, attrs):
-        if attrs.get('password') != attrs.get('confirm_password'):
-            raise serializers.ValidationError("Those passwords don't match.")
+        if attrs.get('senha') != attrs.get('confirm_password'):
+            raise serializers.ValidationError("Senhas nao conferem.")
         return attrs
 
 
-class UserLoginSerializer(serializers.Serializer):
-    username = serializers.CharField(required=True)
-    password = serializers.CharField(required=True)
+class UsuarioLoginSerializer(serializers.Serializer):
+    login = serializers.CharField(required=True)
+    senha = serializers.CharField(required=True)
 
     default_error_messages = {
-        'inactive_account': _('User account is disabled.'),
-        'invalid_credentials': _('Unable to login with provided credentials.')
+        'inactive_account': _('Usuario esta desativado.'),
+        'invalid_credentials': _('Impossibilidade de login com as credenciais fornecidas.')
     }
 
     def __init__(self, *args, **kwargs):
-        super(UserLoginSerializer, self).__init__(*args, **kwargs)
+        super(UsuarioLoginSerializer, self).__init__(*args, **kwargs)
         self.user = None
 
     def validate(self, attrs):
-        self.user = authenticate(username=attrs.get("username"), password=attrs.get('password'))
+        self.user = authenticate(login=attrs.get("login"), password=attrs.get('senha'))
         if self.user:
             if not self.user.is_active:
                 raise serializers.ValidationError(self.error_messages['inactive_account'])

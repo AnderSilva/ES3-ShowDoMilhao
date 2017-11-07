@@ -5,6 +5,7 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
 
+
 class Pergunta(models.Model):
     id_pergunta = models.IntegerField(primary_key=True)
     pergunta = models.CharField(max_length=1000)
@@ -14,8 +15,8 @@ class Pergunta(models.Model):
         db_table = 'pergunta'
 
 class Alternativa(models.Model):
-    id_alternativa = models.IntegerField()
-    id_pergunta = models.ForeignKey('Pergunta', db_column='id_pergunta')
+    id_alternativa = models.IntegerField(primary_key=True)
+    id_pergunta = models.ForeignKey('Pergunta', db_column='id_pergunta',related_name='alternativas')
     alternativa = models.CharField(max_length=1000)
     resposta = models.TextField()  # This field type is a guess.
     frequencia = models.IntegerField(blank=True, null=True)
@@ -23,7 +24,29 @@ class Alternativa(models.Model):
     class Meta:
         managed = False
         db_table = 'alternativa'
-        unique_together = (('id_pergunta', 'id_alternativa'),)
+
+
+#mysql
+# class Pergunta(models.Model):
+#     id_pergunta = models.AutoField(db_column='ID_PERGUNTA', primary_key=True)  # Field name made lowercase.
+#     pergunta = models.CharField(db_column='PERGUNTA', max_length=1000)  # Field name made lowercase.
+#     estado = models.IntegerField(db_column='ESTADO', blank=True, null=True)  # Field name made lowercase.
+
+#     class Meta:
+#         managed = False
+#         db_table = 'PERGUNTAS'
+
+# class Alternativa(models.Model):
+#     id_alternativa = models.IntegerField(db_column='ID_ALTERNATIVA')  # Field name made lowercase.
+#     id_pergunta = models.ForeignKey('Pergunta', db_column='ID_PERGUNTA')  # Field name made lowercase.
+#     alternativa = models.CharField(db_column='ALTERNATIVA', max_length=1000)  # Field name made lowercase.
+#     resposta = models.IntegerField(db_column='RESPOSTA')  # Field name made lowercase.
+
+#     class Meta:
+#         managed = False
+#         db_table = 'ALTERNATIVAS'
+#         unique_together = (('id_pergunta', 'id_alternativa'),)
+
 
 # class UserManager(BaseUserManager):
 #     use_in_migrations = True
