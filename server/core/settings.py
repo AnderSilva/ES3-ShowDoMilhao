@@ -37,7 +37,7 @@ load_env()
 # load_dotenv(dotenv_path, verbose=True)
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
-CLIENT_BASE_DIR = os.path.join(BASE_DIR, '../client')
+#CLIENT_BASE_DIR = os.path.join(BASE_DIR, '../client')
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('DJANGO_SECRET')
@@ -61,8 +61,9 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_extensions',
-    'corsheaders'
+    'corsheaders',
     'rest_framework',
+    'rest_framework_docs',
     'accounts',
     'api'
 )
@@ -105,31 +106,31 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+# STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 # Static file and template locations
-if DEBUG:
-    DJANGO_TEMPLATE_DIRS = (
-        os.path.join(CLIENT_BASE_DIR, 'app'),
-    )
+# if DEBUG:
+#     DJANGO_TEMPLATE_DIRS = (
+#         os.path.join(CLIENT_BASE_DIR, 'app'),
+#     )
 
-    STATICFILES_DIRS = (
-        os.path.join(CLIENT_BASE_DIR, 'app', 'static'),
-        os.path.join(CLIENT_BASE_DIR, '.tmp', 'static')  # Generated CSS files
-    )
-else:
-    DJANGO_TEMPLATE_DIRS = (
-        os.path.join(CLIENT_BASE_DIR, 'dist'),
-    )
+#     STATICFILES_DIRS = (
+#         os.path.join(CLIENT_BASE_DIR, 'app', 'static'),
+#         os.path.join(CLIENT_BASE_DIR, '.tmp', 'static')  # Generated CSS files
+#     )
+# else:
+#     DJANGO_TEMPLATE_DIRS = (
+#         os.path.join(CLIENT_BASE_DIR, 'dist'),
+#     )
 
-    STATICFILES_DIRS = (
-        os.path.join(CLIENT_BASE_DIR, 'dist', 'static'),
-    )
-
+#     STATICFILES_DIRS = (
+#         os.path.join(CLIENT_BASE_DIR, 'dist', 'static'),
+#     )
+DJANGO_TEMPLATE_DIRS =[]
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': DJANGO_TEMPLATE_DIRS,
+        'DIRS':DJANGO_TEMPLATE_DIRS ,
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -167,7 +168,8 @@ REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAdminUser'
+        # 'rest_framework.permissions.IsAdminUser'
+        'rest_framework.permissions.AllowAny'
     ]
 }
 

@@ -12,10 +12,12 @@ admin.site.index_title = ugettext_lazy('Site administration')
 urlpatterns = patterns('',
                        url(r'^admin/', include(admin.site.urls)),
                        # url(r'^jogo/', include('jogo.urls')),
-                       url(r'^api/v1/', include('api.urls')))
+                       url(r'^api/v1/', include('api.urls')),
+                       url(r'^docs/', include('rest_framework_docs.urls')),
+)
 
 # Add client urls for debug mode
-urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+# urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 # This catch all url has to be last
-urlpatterns += url(r'^.*$', 'core.views.home', name='home'),
+# urlpatterns += url(r'^.*$', 'core.views.home', name='home'),
