@@ -43,7 +43,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 SECRET_KEY = os.environ.get('DJANGO_SECRET')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True# bool_value(os.environ.get('DJANGO_DEBUG'))
+DEBUG = bool_value(os.environ.get('DJANGO_DEBUG'))
 
 # Honor the 'Host' header
 ALLOWED_HOSTS = ['*']

@@ -16,7 +16,7 @@ class Pergunta2(models.Model):
 
 class Alternativa2(models.Model):
     id_alternativa = models.AutoField(primary_key=True)
-    id_pergunta = models.ForeignKey(Pergunta2, db_column='id_pergunta',related_name='alternativas',on_delete=models.CASCADE)
+    id_pergunta = models.ForeignKey('Pergunta2', db_column='id_pergunta',related_name='alternativas',on_delete=models.CASCADE)
     alternativa = models.CharField(max_length=1000)
     resposta = models.IntegerField()  # This field type is a guess.
     frequencia = models.IntegerField(blank=True, null=True)
@@ -41,18 +41,18 @@ class Usuario(models.Model):
         managed = False
         db_table = 'usuario'
 
-class RespostaUsuario(models.Model):
-    id_resposta = models.AutoField(primary_key=True)
-    id_pergunta = models.ForeignKey(Pergunta2, db_column='id_pergunta', related_name='perguntas',on_delete=models.CASCADE,blank=True, null=True)
-    id_usuario = models.ForeignKey(Usuario, db_column='id_usuario',related_name='usuarios')
-    id_alternativa = models.IntegerField()
-    verifica = models.IntegerField(blank=True, null=True)
-    tempo = models.FloatField(blank=True, null=True)
-    pontos = models.IntegerField(blank=True, null=True)
+# class RespostaUsuario(models.Model):
+#     id_resposta = models.AutoField(primary_key=True)
+#     id_pergunta = models.ForeignKey('Pergunta2', db_column='id_pergunta', related_name='perguntas',on_delete=models.CASCADE,blank=True, null=True)
+#     id_usuario = models.ForeignKey(Usuario, db_column='id_usuario',related_name='usuarios')
+#     id_alternativa = models.IntegerField()
+#     verifica = models.IntegerField(blank=True, null=True)
+#     tempo = models.FloatField(blank=True, null=True)
+#     pontos = models.IntegerField(blank=True, null=True)
 
-    class Meta:
-        managed = False
-        db_table = 'resposta_usuario'
+#     class Meta:
+#         managed = False
+#         db_table = 'resposta_usuario'
 
 
 # class Pergunta(models.Model):
