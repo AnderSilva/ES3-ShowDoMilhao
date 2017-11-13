@@ -43,7 +43,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 SECRET_KEY = os.environ.get('DJANGO_SECRET')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = bool_value(os.environ.get('DJANGO_DEBUG'))
+DEBUG = True# bool_value(os.environ.get('DJANGO_DEBUG'))
 
 # Honor the 'Host' header
 ALLOWED_HOSTS = ['*']
@@ -66,7 +66,8 @@ INSTALLED_APPS = (
     'rest_framework_docs',
     'accounts',
     'pergunta',
-    'api'
+    'api',
+    'debug_toolbar',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -76,6 +77,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
@@ -220,3 +222,12 @@ LOGGING = {
         },
     }
 }
+
+# def show_toolbar(request):
+#     if not request.is_ajax() and request.user and request.user.username == 'anderson.goma@gmail.com':
+#         return True
+#     return True
+
+# DEBUG_TOOLBAR_CONFIG = {
+#     'SHOW_TOOLBAR_CALLBACK': 'post.settings.show_toolbar',
+# }

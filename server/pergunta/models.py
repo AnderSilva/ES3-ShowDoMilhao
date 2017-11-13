@@ -6,46 +6,79 @@ from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
 
 
-class Pergunta(models.Model):
-    id_pergunta = models.IntegerField(primary_key=True)
-    pergunta = models.CharField(max_length=1000)
+class Pergunta2(models.Model):
+    id_pergunta = models.AutoField(primary_key=True)
+    pergunta = models.CharField(max_length=1000)    
 
     class Meta:
-        managed = False
-        db_table = 'pergunta'
+        managed = True
+        db_table = 'pergunta2'
 
-class Alternativa(models.Model):
-    id_alternativa = models.IntegerField(primary_key=True)
-    id_pergunta = models.ForeignKey('Pergunta', db_column='id_pergunta',related_name='alternativas')
+class Alternativa2(models.Model):
+    id_alternativa = models.AutoField(primary_key=True)
+    id_pergunta = models.ForeignKey(Pergunta2, db_column='id_pergunta',related_name='alternativas',on_delete=models.CASCADE)
     alternativa = models.CharField(max_length=1000)
-    resposta = models.TextField()  # This field type is a guess.
+    resposta = models.IntegerField()  # This field type is a guess.
     frequencia = models.IntegerField(blank=True, null=True)
 
     class Meta:
+        managed = True
+        db_table = 'alternativa2'
+
+class Usuario(models.Model):
+    id_usuario = models.AutoField(primary_key=True)
+    nome = models.CharField(max_length=50)
+    sobrenome = models.CharField(max_length=50)
+    email = models.CharField(max_length=40)
+    avatar = models.IntegerField()
+    balao = models.IntegerField()
+    login = models.CharField(max_length=20)
+    senha = models.CharField(max_length=6)
+    pontos = models.IntegerField()
+    is_admin = models.TextField(blank=True, null=True)  # This field type is a guess.
+
+    class Meta:
         managed = False
-        db_table = 'alternativa'
+        db_table = 'usuario'
+
+class RespostaUsuario(models.Model):
+    id_resposta = models.AutoField(primary_key=True)
+    id_pergunta = models.ForeignKey(Pergunta2, db_column='id_pergunta', related_name='perguntas',on_delete=models.CASCADE,blank=True, null=True)
+    id_usuario = models.ForeignKey(Usuario, db_column='id_usuario',related_name='usuarios')
+    id_alternativa = models.IntegerField()
+    verifica = models.IntegerField(blank=True, null=True)
+    tempo = models.FloatField(blank=True, null=True)
+    pontos = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'resposta_usuario'
 
 
-#mysql
 # class Pergunta(models.Model):
-#     id_pergunta = models.AutoField(db_column='ID_PERGUNTA', primary_key=True)  # Field name made lowercase.
-#     pergunta = models.CharField(db_column='PERGUNTA', max_length=1000)  # Field name made lowercase.
-#     estado = models.IntegerField(db_column='ESTADO', blank=True, null=True)  # Field name made lowercase.
+#     id_pergunta = models.IntegerField(primary_key=True)
+#     pergunta = models.CharField(max_length=1000)
+
 
 #     class Meta:
 #         managed = False
-#         db_table = 'PERGUNTAS'
+#         db_table = 'pergunta'
 
 # class Alternativa(models.Model):
-#     id_alternativa = models.IntegerField(db_column='ID_ALTERNATIVA')  # Field name made lowercase.
-#     id_pergunta = models.ForeignKey('Pergunta', db_column='ID_PERGUNTA')  # Field name made lowercase.
-#     alternativa = models.CharField(db_column='ALTERNATIVA', max_length=1000)  # Field name made lowercase.
-#     resposta = models.IntegerField(db_column='RESPOSTA')  # Field name made lowercase.
+#     id_alternativa = models.IntegerField(primary_key=True)
+#     id_pergunta = models.ForeignKey('Pergunta', db_column='id_pergunta',related_name='alternativas')
+#     alternativa = models.CharField(max_length=1000)
+#     resposta = models.TextField()  # This field type is a guess.
+#     frequencia = models.IntegerField(blank=True, null=True)
 
 #     class Meta:
 #         managed = False
-#         db_table = 'ALTERNATIVAS'
-#         unique_together = (('id_pergunta', 'id_alternativa'),)
+#         db_table = 'alternativa'
+    
+    # def __unicode__(self):
+    #     return '%d: %s : %s' % (self.id_alternativa, self.alternativa, self.resposta)
+
+
 
 
 # class UserManager(BaseUserManager):

@@ -16,6 +16,13 @@ urlpatterns = patterns('',
                        url(r'^api|^', include('rest_framework_docs.urls')),
 )
 
+
+if settings.DEBUG:
+    import debug_toolbar
+    urlpatterns = [
+        url(r'^__debug__/', include(debug_toolbar.urls)),
+    ] + urlpatterns
+  
 # Add client urls for debug mode
 # urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
