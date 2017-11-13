@@ -98,6 +98,15 @@ DATABASES = {
     'default': dj_database_url.config()
 }
 
+DATABASES['default'] = {
+    'ENGINE': 'django.db.backends.mysql',
+    'HOST': 'cloudtasks.me',
+    'USER': 'u860844912_show',
+    'NAME':'u860844912_show',
+    'PASSWORD':'u860844912_show'    
+}
+
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/dev/topics/i18n/
