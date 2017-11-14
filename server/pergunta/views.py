@@ -1,6 +1,6 @@
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView,ListAPIView, RetrieveAPIView
 
-from pergunta.models import Pergunta2 as Pergunta , Alternativa2 as Alternativa
+from pergunta.models import Pergunta , Alternativa
 from pergunta.serializers import PerguntaSerializer, AlternativaSerializer
 import random as rand
 
