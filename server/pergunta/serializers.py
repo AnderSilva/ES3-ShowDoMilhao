@@ -1,6 +1,6 @@
 from rest_framework.serializers import ModelSerializer, HyperlinkedModelSerializer
 from rest_framework import serializers
-from pergunta.models import Pergunta2 as Pergunta, Alternativa2 as Alternativa
+from pergunta.models import Pergunta, Alternativa
 # from pergunta.serializers import AlternativaSerializer
 from django.db import transaction
 
