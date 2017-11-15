@@ -83,6 +83,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.middleware.common.BrokenLinkEmailsMiddleware',
+    'whitenoise.midleware.WhiteNoiseMiddleware',
 )
 CORS_ORIGIN_ALLOW_ALL = True
 
