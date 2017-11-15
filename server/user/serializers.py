@@ -7,9 +7,9 @@ from rest_framework.authtoken.models import Token
 class UserSerializer(ModelSerializer):
     class Meta:
         model = Usuario
-        fields = ('nome','sobrenome', 'email','login','senha','is_admin')
+        fields = ('id_usuario','nome','sobrenome', 'email','avatar' ,'balao','login','senha','pontos','is_admin', 'inativo')
         extra_kwargs = {
-             'id_usuario': {'read_only': True}             
+             'id_usuario': {'read_only': True}
         }
 
 

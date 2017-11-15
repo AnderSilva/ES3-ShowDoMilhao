@@ -10,7 +10,8 @@ class Usuario(models.Model):
     login = models.CharField(max_length=255)
     senha = models.CharField(max_length=255)
     pontos = models.IntegerField()
-    is_admin = models.TextField(blank=True, null=True)  # This field type is a guess.
+    is_admin = models.BooleanField()  # This field type is a guess.
+    inativo = models.BooleanField()  # This field type is a guess.
 
 
     class Meta:
