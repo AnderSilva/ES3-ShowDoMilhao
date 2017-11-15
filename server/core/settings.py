@@ -16,9 +16,9 @@ def load_env():
 
     try:
         with open(envfile) as f:
-            content = f.read()            
+            content = f.read()
     except IOError:
-        print 'error manooo\n'        
+        print 'error manooo\n'
         content = ''
 
     for line in content.splitlines():
@@ -43,7 +43,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 SECRET_KEY = os.environ.get('DJANGO_SECRET')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True# bool_value(os.environ.get('DJANGO_DEBUG'))
+DEBUG = bool_value(os.environ.get('DJANGO_DEBUG'))
 
 # Honor the 'Host' header
 ALLOWED_HOSTS = ['*']
@@ -67,7 +67,7 @@ INSTALLED_APPS = (
     # 'accounts',
     'user',
     'pergunta',
-    'api',    
+    'api',
     'debug_toolbar',
 )
 
