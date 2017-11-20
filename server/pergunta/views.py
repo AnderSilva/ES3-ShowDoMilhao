@@ -10,16 +10,17 @@ class PerguntaAlternativaView(RetrieveAPIView):
     queryset = Alternativa.objects.all()
     serializer_class = AlternativaRespostaSerializer
 
-    def get(self,request, id_alternativa, id_pergunta):
-        # serializer = self.get_serializer(data=request.data)
+    def get(self,request, id_alternativa, id_pergunta):        
         try:
             respostaBD = Alternativa.objects.filter(id_pergunta=id_pergunta,id_alternativa=id_alternativa).get().resposta
         except ObjectDoesNotExist:
             return Response(data={-1:'Vini, para de malandragem!'},status=status.HTTP_200_OK)
 
         if respostaBD=='1':
+            #TODO salvar pontuacao no halldafama
             return Response(data={1:'Resposta Correta!'},status=status.HTTP_200_OK)
         else:
+            #TODO remover pontuacao devido ao erro
             return Response(data={0:'Resposta Errada!'},status=status.HTTP_200_OK)
 
 
