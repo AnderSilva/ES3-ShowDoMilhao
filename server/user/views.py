@@ -4,6 +4,7 @@ from rest_framework.authtoken.models import Token
 from rest_framework.generics import CreateAPIView, GenericAPIView, RetrieveUpdateAPIView
 from rest_framework.response import Response
 from rest_framework.views import APIView
+# from rest_framework_jwt.views import obtain_jwt_token
 from user.models import Usuario
 
 
@@ -19,12 +20,15 @@ class UserDetailView(RetrieveUpdateAPIView):
     serializer_class = UserSerializer
 
 class UserLoginView(CreateAPIView):
-    queryset = Usuario.objects.all()
-    serializer_class = UserLoginSerializer
+    permission_classes = ()
+    authentication_classes = ()
+    # queryset = Usuario.objects.all()
+    # serializer_class = UserLoginSerializer
 
-
-    def post(self, request, *args, **kwargs):
+    def post(self, request):
         serializer = self.get_serializer(data=request.data)
+        # print serializer.data #['senha']
+        # print serializer['data']
         if serializer.is_valid():
             # print serializer
             # login = serializer['login']

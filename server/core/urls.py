@@ -15,6 +15,7 @@ urlpatterns = patterns('',
                        url(r'^api/v1/pergunta', include('pergunta.urls')),
                        url(r'^api/v1/user' , include('user.urls')),
                        url(r'^api/v1/$|^', include('rest_framework_docs.urls')),
+                       url(r'^api-auth/',include('rest_framework.urls',namespace='rest_framework'))
 )
 
 
@@ -23,7 +24,7 @@ if settings.DEBUG:
     urlpatterns = [
         url(r'^__debug__/', include(debug_toolbar.urls)),
     ] + urlpatterns
-  
+
 # Add client urls for debug mode
 # urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 #  u860844912_show

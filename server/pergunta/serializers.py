@@ -15,7 +15,7 @@ class AlternativaSerializer(ModelSerializer):
 
 
 class PerguntaSerializer(ModelSerializer):
-    # alternativas = serializers.ReadonlyField(many=True,read_only=True) #, view_name='alternativa_detail', read_only=True)    
+    # alternativas = serializers.ReadonlyField(many=True,read_only=True) #, view_name='alternativa_detail', read_only=True)
     #alternativas = serializers.StringRelatedField(many=True,read_only=True)
     # alternativas = serializers.HyperlinkedRelatedField(many=True,read_only=True, view_name='alternativa_detail')
     alternativas = AlternativaSerializer(many=True)
@@ -28,23 +28,26 @@ class PerguntaSerializer(ModelSerializer):
     pass
 
     def create(self, validated_data):
-        alternativas_data = validated_data.pop('alternativas')               
-        
+        alternativas_data = validated_data.pop('alternativas')
+
         with transaction.atomic():
             pergunta = Pergunta(pergunta=validated_data.pop('pergunta'))
             pergunta.clean()
             pergunta.save()
 
-            for alternativa_data in alternativas_data:                            
+            for alternativa_data in alternativas_data:
                 Alternativa.objects.filter(id_pergunta=pergunta.id_pergunta).update_or_create(id_pergunta_id=pergunta.id_pergunta,alternativa=alternativa_data['alternativa'],resposta=alternativa_data['resposta'])
 
         return pergunta
 
     def update(self, instance, validated_data):
-        alternativas = validated_data.pop('alternativas') 
-        instance.pergunta = validated_data.pop('pergunta')        
+        alternativas = validated_data.pop('alternativas')
+        instance.pergunta = validated_data.pop('pergunta')
 
         # deletar
+
+
+
         instance.alternativas.filter(id_pergunta=instance.id_pergunta).delete()
         #Recria os itens
         for alternativa in alternativas:
@@ -53,7 +56,7 @@ class PerguntaSerializer(ModelSerializer):
                                         ,resposta=alternativa['resposta'])
 
 
-        # for alternativa in alternativas:                
+        # for alternativa in alternativas:
         #     tupla_alternativas = instance.alternativas.get_or_create(alternativa=alternativa['alternativa'])
         #     addAlternativa = tupla_alternativas[1]
 
@@ -68,8 +71,27 @@ class PerguntaSerializer(ModelSerializer):
         #             .filter(id_pergunta=instance.id_pergunta\
         #                    ,id_alternativa=tupla_alternativas[0].id_alternativa)\
         #             .update(alternativa=alternativa['alternativa'])
-   
+
         instance.save()
         return instance
     pass
 
+class AlternativaRespostaSerializer(ModelSerializer):
+    class Meta:
+        model = Alternativa
+        fields = ('id_pergunta','id_alternativa','resposta')
+        extra_kwargs = {
+             'id_pergunta': {'read_only': True},
+             'id_alternativa': {'read_only': True},
+             'resposta': {'read_only': True}
+        }
+
+# class PerguntaAlternativaSerializer(ModelSerializer):
+#     alternativas = AlternativaRespostaSerializer(many=True)
+#     class Meta:
+#         model = Pergunta
+#         fields = ('alternativas',)
+#         extra_kwargs = {
+#             'id_pergunta': {'read_only': True}
+#         }
+#     pass
