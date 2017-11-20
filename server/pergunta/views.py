@@ -3,16 +3,19 @@ from rest_framework.response import Response
 from rest_framework import status
 from pergunta.models import Pergunta , Alternativa
 from pergunta.serializers import PerguntaSerializer, AlternativaSerializer,AlternativaRespostaSerializer
+from django.core.exceptions import ObjectDoesNotExist
 import random as rand
 
 class PerguntaAlternativaView(RetrieveAPIView):
     queryset = Alternativa.objects.all()
     serializer_class = AlternativaRespostaSerializer
 
-    def get(self, request, id_alternativa, id_pergunta):
-        serializer = self.get_serializer(data=request.data)
-
-        respostaBD = Alternativa.objects.filter(id_pergunta=id_pergunta,id_alternativa=id_alternativa).get().resposta
+    def get(self,request, id_alternativa, id_pergunta):
+        # serializer = self.get_serializer(data=request.data)
+        try:
+            respostaBD = Alternativa.objects.filter(id_pergunta=id_pergunta,id_alternativa=id_alternativa).get().resposta
+        except ObjectDoesNotExist:
+            return Response(data={-1:'Vini, para de malandragem!'},status=status.HTTP_200_OK)
 
         if respostaBD=='1':
             return Response(data={1:'Resposta Correta!'},status=status.HTTP_200_OK)
