@@ -5,9 +5,9 @@ from user.views import UserLoginView
 
 urlpatterns = [
     url(r'^/create$', UserLoginView.as_view()),
-    url(r'^/login$', obtain_jwt_token),
+    url(r'^/authtoken$', obtain_jwt_token),
     # url(r'^/login/refresh$', refresh_jwt_token),
-    url(r'^/login/verify$', verify_jwt_token),
+    # url(r'^/login/verify$', verify_jwt_token),
 
 
 
