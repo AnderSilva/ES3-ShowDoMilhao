@@ -1,16 +1,23 @@
-from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView,ListAPIView, RetrieveAPIView
-from rest_framework.response import Response
-from rest_framework import status
 from pergunta.models import Pergunta , Alternativa
 from pergunta.serializers import PerguntaSerializer, AlternativaSerializer,AlternativaRespostaSerializer
+
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView,ListAPIView, RetrieveAPIView
+from rest_framework.permissions import IsAuthenticated
+from rest_framework_jwt.authentication import JSONWebTokenAuthentication
+
 from django.core.exceptions import ObjectDoesNotExist
 import random as rand
 
 class PerguntaAlternativaView(RetrieveAPIView):
-    queryset = Alternativa.objects.all()
-    serializer_class = AlternativaRespostaSerializer
+    permission_classes = (IsAuthenticated, )
+    authentication_classes = (JSONWebTokenAuthentication,)
 
-    def get(self,request, id_alternativa, id_pergunta):        
+    queryset = Alternativa.objects.all()
+    serializer_class = AlternativaRespostaSerializer   
+
+    def get(self,request, id_alternativa, id_pergunta):
         try:
             respostaBD = Alternativa.objects.filter(id_pergunta=id_pergunta,id_alternativa=id_alternativa).get().resposta
         except ObjectDoesNotExist:

@@ -64,11 +64,9 @@ INSTALLED_APPS = (
     'corsheaders',
     'rest_framework',
     'rest_framework_docs',
-    # 'accounts',
     'user',
     'pergunta',
-    'api',
-    'debug_toolbar',
+    # 'api',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -162,22 +160,26 @@ else:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # Custom user
-# AUTH_USER_MODEL = 'user.Usuario'
+AUTH_USER_MODEL = 'user.Usuario'
+
 
 # REST API
 REST_FRAMEWORK = {
     'UNICODE_JSON': True,
-    # Use hyperlinked styles by default.
-    # Only used if the `serializer_class` attribute is not set on a view.
     'DEFAULT_MODEL_SERIALIZER_CLASS':
         'rest_framework.serializers.HyperlinkedModelSerializer',
-
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
     'DEFAULT_PERMISSION_CLASSES': [
+      #'rest_framework.permissions.IsAuthenticated',
         # 'rest_framework.permissions.IsAdminUser'
-        'rest_framework.permissions.AllowAny'
+        'rest_framework.permissions.AllowAny',
     ],
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ),
     # 'DEFAULT_RENDERER_CLASSES': (
     #      #UnicodeJSONRenderer has an ensure_ascii = False attribute,
     #      #thus it will not escape characters.
@@ -186,6 +188,8 @@ REST_FRAMEWORK = {
     #     'rest_framework.renderers.BrowsableAPIRenderer'
     # )
 }
+
+
 
 # Logging and error reporting
 ADMINS = parse_emails(os.environ.get('DJANGO_ADMINS'))
