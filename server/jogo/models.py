@@ -2,6 +2,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db       import models
 from user.models     import Usuario
+from pergunta.models import Pergunta
 
 class Jogo(models.Model):
     usuario     = models.ForeignKey(Usuario , db_column='id_Usuario' ,related_name='jogo_user',on_delete=models.CASCADE)
@@ -22,6 +23,17 @@ class Jogo(models.Model):
         self.continente = aux
         super(Jogo, self).save(*args, **kwargs)
 
+
+class JogoPerguntas(models.Model):
+    jogo     = models.ForeignKey(Jogo, related_name='jogo_perguntas')
+    pergunta = models.ForeignKey(Pergunta, db_column='id_pergunta',related_name='perguntas_jogo',on_delete=models.CASCADE)
+    acertou  = models.BooleanField(null=False)
+
+    class Meta:
+        managed = True
+        db_table = 'jogo_pergunta'        
+
+
 class PontosTimer(models.Model):    
     ate_segundos = models.IntegerField()
     pontos = models.IntegerField()
@@ -29,3 +41,6 @@ class PontosTimer(models.Model):
     class Meta:
         managed = False
         db_table = 'pontos_timer'
+
+
+

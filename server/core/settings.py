@@ -68,7 +68,7 @@ INSTALLED_APPS = (
     'user',
     'pergunta',
     'jogo',
-    # 'api',
+    'item',
 )
 
 MIDDLEWARE_CLASSES = (
