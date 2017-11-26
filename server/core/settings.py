@@ -192,6 +192,8 @@ REST_FRAMEWORK = {
 JWT_AUTH = {
     'JWT_RESPONSE_PAYLOAD_HANDLER': 'user.helper.response_User_jwt_payload_handler',
     'JWT_AUTH_HEADER_PREFIX': 'Bearer',
+    'JWT_VERIFY_EXPIRATION' : False,
+    'JWT_ALLOW_REFRESH': True,
     'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=18000),
 }
 
