@@ -11,7 +11,7 @@ from user.helper import IsAdmin
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 
 from django.core.exceptions import ObjectDoesNotExist
-import random as rand
+import random
 
 class PerguntaListView(ListCreateAPIView):
     """
@@ -94,15 +94,38 @@ class PerguntaDetailView(RetrieveUpdateDestroyAPIView):
     serializer_class = PerguntaSerializer
 
 class PerguntaRandomView(ListAPIView):
-    # permission_classes= (IsAuthenticated,)
+    permission_classes= (IsAuthenticated,)
     serializer_class = PerguntaSerializer
 
     def get_queryset(self):
-        pk = rand.randint(1,300)
-        print request
-        #implementar busca das perguntas ja processadas
-        return Pergunta.objects.filter(pk=pk)
+        #perguntas_usadas = buscar tabela log
+        #perguntas_possiveis = Pergunta.objects.values_list('id_pergunta',flat=True).exclude(id_pergunta__in=perguntas_usadas)
+        #pk = random.choices(lista_perguntas)
+        
+        pk = random.randint(1,300)        
+        obtem_Pergunta = True
+        while obtem_Pergunta:            
+            try:
+                pergunta = Pergunta.objects.filter(pk=pk)
+                obtem_Pergunta = False
+            except ObjectDoesNotExist:
+                obtem_Pergunta = True
+                pass
+            pass
+
+        #TODO GRAVAR id_pergunta e id_jogo NA TABELA LOG
+        return pergunta
     pass
+
+    # def get(self, request):
+    #     print request.user.id
+    #     print '*******************************************************************************'
+    #     # data = {
+    #     #     'id': request.user.id,
+    #     #     'pergunta': request
+    #     # }
+    #     return Response('oi', status=status.HTTP_200_OK)
+        
 
 
 # class AlternativaCreateView(ListCreateAPIView):
