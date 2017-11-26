@@ -1,0 +1,8 @@
+
+#teste obter o token
+curl -X POST -d "email=admin@admin.com&password=admin" http://localhost:8000/api/v1/user/authtoken
+
+#token
+"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluQGFkbWluLmNvbSIsInVzZXJfaWQiOjEsImVtYWlsIjoiYWRtaW5AYWRtaW4uY29tIiwiZXhwIjoxNTExNjQ2MjczfQ.cMHkVHy8JipjjcO_lTgAOq8JQ9f9gVyCxOkTO1C3KPg"
+
+curl -H "Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluQGFkbWluLmNvbSIsInVzZXJfaWQiOjEsImVtYWlsIjoiYWRtaW5AYWRtaW4uY29tIiwiZXhwIjoxNTExNjQ2MjczfQ.cMHkVHy8JipjjcO_lTgAOq8JQ9f9gVyCxOkTO1C3KPg" http://localhost:8000/api/v1/pergunta/list

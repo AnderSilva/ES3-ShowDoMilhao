@@ -11,11 +11,11 @@ from django.core.exceptions import ObjectDoesNotExist
 import random as rand
 
 class PerguntaAlternativaView(RetrieveAPIView):
-    permission_classes = (IsAuthenticated, )
-    authentication_classes = (JSONWebTokenAuthentication,)
+    # permission_classes = (IsAuthenticated, )
+    # authentication_classes = (JSONWebTokenAuthentication,)
 
     queryset = Alternativa.objects.all()
-    serializer_class = AlternativaRespostaSerializer   
+    serializer_class = AlternativaRespostaSerializer
 
     def get(self,request, id_alternativa, id_pergunta):
         try:
@@ -44,10 +44,12 @@ class PerguntaDetailView(RetrieveUpdateDestroyAPIView):
     serializer_class = PerguntaSerializer
 
 class PerguntaRandomView(ListAPIView):
+    # permission_classes= (IsAuthenticated,)
     serializer_class = PerguntaSerializer
 
     def get_queryset(self):
         pk = rand.randint(1,300)
+        print request
         #implementar busca das perguntas ja processadas
         return Pergunta.objects.filter(pk=pk)
     pass

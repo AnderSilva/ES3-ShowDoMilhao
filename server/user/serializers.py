@@ -2,7 +2,19 @@ from django.contrib.auth import update_session_auth_hash
 from rest_framework import serializers
 from rest_framework.views import APIView
 from user.models import Usuario
-# from rest_framework.authtoken.models import Token
+from jogo.models import Jogo
+from jogo.serializers import JogoSerializer
+
+
+class UserStatusSerializer(serializers.ModelSerializer):    
+    jogo_user = JogoSerializer(many=True)
+    class Meta:
+        model = Usuario
+        fields = ('nome','sobrenome', 'email','username','avatar','pontos','balao','jogo_user')
+        # extra_kwargs = {
+        #     'id': {'read_only': True}
+        # }
+    pass
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -57,9 +69,4 @@ class UserSerializer(serializers.ModelSerializer):
     #         raise serializers.ValidationError(self.error_messages['invalid_credentials'])
 
 
-# class TokenSerializer(serializers.ModelSerializer):
-#     auth_token = serializers.CharField(source='key')
-#
-#     class Meta:
-#         model = Token
-#         fields = ("auth_token",)
+

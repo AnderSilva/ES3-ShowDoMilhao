@@ -1,7 +1,6 @@
 from rest_framework.serializers import ModelSerializer, HyperlinkedModelSerializer
 from rest_framework import serializers
 from pergunta.models import Pergunta, Alternativa
-# from pergunta.serializers import AlternativaSerializer
 from django.db import transaction
 
 class AlternativaSerializer(ModelSerializer):
@@ -14,10 +13,7 @@ class AlternativaSerializer(ModelSerializer):
         }
 
 
-class PerguntaSerializer(ModelSerializer):
-    # alternativas = serializers.ReadonlyField(many=True,read_only=True) #, view_name='alternativa_detail', read_only=True)
-    #alternativas = serializers.StringRelatedField(many=True,read_only=True)
-    # alternativas = serializers.HyperlinkedRelatedField(many=True,read_only=True, view_name='alternativa_detail')
+class PerguntaSerializer(ModelSerializer):    
     alternativas = AlternativaSerializer(many=True)
     class Meta:
         model = Pergunta
@@ -43,35 +39,13 @@ class PerguntaSerializer(ModelSerializer):
     def update(self, instance, validated_data):
         alternativas = validated_data.pop('alternativas')
         instance.pergunta = validated_data.pop('pergunta')
-
-        # deletar
-
-
-
         instance.alternativas.filter(id_pergunta=instance.id_pergunta).delete()
+
         #Recria os itens
         for alternativa in alternativas:
             instance.alternativas.create(id_pergunta=instance.id_pergunta\
                                         ,alternativa=alternativa['alternativa']\
                                         ,resposta=alternativa['resposta'])
-
-
-        # for alternativa in alternativas:
-        #     tupla_alternativas = instance.alternativas.get_or_create(alternativa=alternativa['alternativa'])
-        #     addAlternativa = tupla_alternativas[1]
-
-        #     if addAlternativa:
-        #         print 'criar novo\n\n\n'
-        #         instance.alternativas\
-        #             .create(id_pergunta=instance.id_pergunta\
-        #                    ,alternativa=alternativa['alternativa'])
-        #     else:
-        #         print 'update \n\n\n'
-        #         instance.alternativas\
-        #             .filter(id_pergunta=instance.id_pergunta\
-        #                    ,id_alternativa=tupla_alternativas[0].id_alternativa)\
-        #             .update(alternativa=alternativa['alternativa'])
-
         instance.save()
         return instance
     pass

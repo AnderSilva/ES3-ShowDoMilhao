@@ -1,10 +1,10 @@
 from django.conf.urls import url
 from rest_framework_jwt.views import obtain_jwt_token, refresh_jwt_token, verify_jwt_token
 #from user.views import UserCreateView, UserDetailView #UserRegistrationAPIView, UserLoginAPIView, UserLogoutAPIView
-from user.views import UserLoginView
+from user.views import UserCreateView
 
 urlpatterns = [
-    url(r'^/create$', UserLoginView.as_view()),
+    url(r'^/create$',    UserCreateView.as_view()),
     url(r'^/authtoken$', obtain_jwt_token),
     # url(r'^/login/refresh$', refresh_jwt_token),
     # url(r'^/login/verify$', verify_jwt_token),

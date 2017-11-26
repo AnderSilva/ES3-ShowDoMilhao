@@ -1,22 +1,3 @@
-# from django.db import models
-#
-# class Usuario(models.Model):
-#     id_usuario = models.AutoField(primary_key=True)
-#     nome = models.CharField(max_length=255)
-#     sobrenome = models.CharField(max_length=255)
-#     email = models.CharField(max_length=255,unique=True)
-#     login = models.CharField(max_length=255)
-#     senha = models.CharField(max_length=255)
-#     avatar = models.IntegerField()
-#     balao = models.IntegerField()
-#     pontos = models.IntegerField()
-#     is_admin = models.BooleanField()
-#     inativo = models.BooleanField()
-#
-#     class Meta:
-#         managed = False
-#         db_table = 'usuario'
-
 import re
 from django.db import models
 from django.core import validators

@@ -7,6 +7,7 @@ import os
 import re
 import dj_database_url
 from core.env_utils import parse_emails, bool_value
+import datetime
 
 def load_env():
     """
@@ -54,7 +55,7 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # Application definition
 INSTALLED_APPS = (
-    'django.contrib.admin',
+    # 'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -66,6 +67,7 @@ INSTALLED_APPS = (
     'rest_framework_docs',
     'user',
     'pergunta',
+    'jogo',
     # 'api',
 )
 
@@ -78,7 +80,6 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.common.BrokenLinkEmailsMiddleware',
@@ -166,19 +167,18 @@ AUTH_USER_MODEL = 'user.Usuario'
 # REST API
 REST_FRAMEWORK = {
     'UNICODE_JSON': True,
-    'DEFAULT_MODEL_SERIALIZER_CLASS':
-        'rest_framework.serializers.HyperlinkedModelSerializer',
-    # Use Django's standard `django.contrib.auth` permissions,
-    # or allow read-only access for unauthenticated users.
+    'DEFAULT_MODEL_SERIALIZER_CLASS': 'rest_framework.serializers.HyperlinkedModelSerializer',
+
     'DEFAULT_PERMISSION_CLASSES': [
-      #'rest_framework.permissions.IsAuthenticated',
+        'rest_framework.permissions.IsAuthenticated',
+        # 'rest_framework.permissions.AllowAny',
         # 'rest_framework.permissions.IsAdminUser'
-        'rest_framework.permissions.AllowAny',
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.BasicAuthentication',
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        # 'rest_framework.authentication.TokenAuthentication',
     ),
     # 'DEFAULT_RENDERER_CLASSES': (
     #      #UnicodeJSONRenderer has an ensure_ascii = False attribute,
@@ -189,7 +189,11 @@ REST_FRAMEWORK = {
     # )
 }
 
-
+JWT_AUTH = {
+    'JWT_RESPONSE_PAYLOAD_HANDLER': 'user.helper.response_User',
+    'JWT_AUTH_HEADER_PREFIX': 'Bearer',
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=18000),
+}
 
 # Logging and error reporting
 ADMINS = parse_emails(os.environ.get('DJANGO_ADMINS'))
