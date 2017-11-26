@@ -5,8 +5,8 @@ from user.views import UserCreateView,UserListView,UserGetView
 
 urlpatterns = [
     url(r'^/create$'         , UserCreateView.as_view()),
-    url(r'^/authtoken$'      , obtain_jwt_token),
-    url(r'^/login/refresh$'  , refresh_jwt_token),
+    url(r'^/token/get$'      , obtain_jwt_token),
+    url(r'^/token/refresh$'  , refresh_jwt_token),
     url(r'^/list$'           , UserListView.as_view()),
     url(r'^/(?P<id>[0-9]+)$' , UserGetView.as_view()),
     
