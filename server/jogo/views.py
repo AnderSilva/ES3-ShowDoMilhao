@@ -3,8 +3,9 @@ from jogo.serializers import JogoSerializer
 
 from rest_framework import status
 from rest_framework.response import Response
-from rest_framework.generics import ListAPIView, RetrieveAPIView
+from rest_framework.generics import ListAPIView,CreateAPIView
 from rest_framework.permissions import IsAuthenticated, AllowAny
+from user.helper import IsAdmin
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 
 from django.core.exceptions import ObjectDoesNotExist
@@ -24,13 +25,20 @@ class JogoRecuperarCreateView(ListAPIView):
     #     jogo = Jogo.objects.filter(id_usuario=request.user.id,is_active=True)
     #     return JogoSerializer(jogo).data
 
-    # def get(self, request):
-    #     data = {
-    #         # 'id': request.user.id,
-    #         'username': request.user.username,
-    #         'token': str(request.auth)
-    #     }        
-    #     return Response(data)
+    def get(self, request):
+        #TODO
+        # try:
+        #     #localizar o jogo
+        #     #respostaBD = Alternativa.objects.filter(id_pergunta=id_pergunta,id_alternativa=id_alternativa).get().resposta
+        # except ObjectDoesNotExist:
+        #     #criar jogo
+
+        data = {
+            'id': request.user.id,
+            'username': request.user.username,
+            'token': str(request.auth)
+        }        
+        return Response(data)
 
     # def get(self,request):
     #     serializer = self.serializer_class(data=request.data)
@@ -53,3 +61,15 @@ class JogoRecuperarCreateView(ListAPIView):
     #     # else:
     #     #     #TODO remover pontuacao devido ao erro
     #     return Response(data={0:'Teste'},status=status.HTTP_200_OK)
+
+class JogoListView(ListAPIView):
+    permission_classes= (IsAdmin,)
+    authentication_classes = (JSONWebTokenAuthentication,)
+    queryset = Jogo.objects.all()
+    serializer_class = JogoSerializer
+
+class JogoCreateView(CreateAPIView):
+    permission_classes= (IsAuthenticated,)
+    authentication_classes = (JSONWebTokenAuthentication,)
+    queryset = Jogo.objects.all()
+    serializer_class = JogoSerializer

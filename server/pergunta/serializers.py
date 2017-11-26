@@ -12,7 +12,6 @@ class AlternativaSerializer(ModelSerializer):
              'id_alternativa': {'read_only': True}
         }
 
-
 class PerguntaSerializer(ModelSerializer):    
     alternativas = AlternativaSerializer(many=True)
     class Meta:

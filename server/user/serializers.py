@@ -7,10 +7,12 @@ from jogo.serializers import JogoSerializer
 
 
 class UserStatusSerializer(serializers.ModelSerializer):    
-    jogo_user = JogoSerializer(many=True)
+    queryset = Jogo.objects.filter(is_active=True)
+    jogo_user = JogoSerializer(data=queryset , many=True)
     class Meta:
         model = Usuario
-        fields = ('nome','sobrenome', 'email','username','avatar','pontos','balao','jogo_user')
+        fields = ('email','username','nome','sobrenome'
+            , 'avatar','balao','pontos','balao','is_admin','jogo_user')
         # extra_kwargs = {
         #     'id': {'read_only': True}
         # }
@@ -28,13 +30,11 @@ class UserSerializer(serializers.ModelSerializer):
              'id': {'read_only': True}
         }
 
-    def create(self, validated_data):
-        print type(validated_data)
-        print '***********************************************'
+    def create(self, validated_data):        
         username=validated_data.pop('username')
         email=validated_data.pop('email')
-        password=validated_data.pop('password')
-        # return Usuario.objects.create_user(**validated_data)
+        password=validated_data.pop('password')        
+        
         return Usuario.objects.create_user(username, email, password, **validated_data)
 
     def update(self, instance, validated_data):

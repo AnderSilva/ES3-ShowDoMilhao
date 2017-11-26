@@ -8,7 +8,6 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
 from django.conf import settings
 
-
 class UserManager(BaseUserManager):
 
     def _create_user(self, username, email, password, is_admin, is_superuser, **extra_fields):
@@ -47,13 +46,14 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
                                             re.compile('^[\w.@+-]+$'),
                                             _('Entre um username valido.'),
                                             _('invalido'))])
-    email = models.EmailField(_('email'), max_length=255, unique=True)
-    nome = models.CharField(_('nome'), max_length=255)
+    email     = models.EmailField(_('email'), max_length=255, unique=True)
+    nome      = models.CharField(_('nome'), max_length=255)
     sobrenome = models.CharField(_('sobrenome'), max_length=255)
-    avatar = models.IntegerField(default=1)
-    balao = models.IntegerField(default=1)
-    pontos = models.IntegerField(default=50)
-    is_admin = models.BooleanField(_('status Admin'), default=False,
+    avatar    = models.IntegerField(default=1)
+    balao     = models.IntegerField(default=1)
+    pontos    = models.IntegerField(default=50)
+    jogo_atual= models.IntegerField()
+    is_admin  = models.BooleanField(_('status Admin'), default=False,
         help_text=_('Flag que define se o usuario pode acessar area Administrativa.'))
     is_active = models.BooleanField(_('ativo'), default=True,
         help_text=_('Flag que define se o usuario esta ativo. \
