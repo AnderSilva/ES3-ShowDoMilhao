@@ -25,9 +25,9 @@ class Jogo(models.Model):
 
 
 class JogoPerguntas(models.Model):
-    jogo     = models.ForeignKey(Jogo, related_name='jogo_perguntas')
-    pergunta = models.ForeignKey(Pergunta, db_column='id_pergunta',related_name='perguntas_jogo',on_delete=models.CASCADE)
-    acertou  = models.BooleanField(null=False)
+    jogo_id     = models.ForeignKey(Jogo,     related_name='jogo_perguntas')
+    id_pergunta = models.ForeignKey(Pergunta, db_column='id_pergunta',related_name='perguntas_jogo',on_delete=models.CASCADE)
+    acertou     = models.BooleanField(null=False)
 
     class Meta:
         managed = True

@@ -8,7 +8,7 @@ urlpatterns = [
     url(r'^/token/get$'      , obtain_jwt_token),
     url(r'^/token/refresh$'  , refresh_jwt_token),
     url(r'^/list$'           , UserListView.as_view()),
-    url(r'^/(?P<id>[0-9]+)$' , UserGetView.as_view()),
+    url(r'^/(?P<pk>[0-9]+)$' , UserGetView.as_view()),
     
 
     

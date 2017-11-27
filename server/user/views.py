@@ -39,7 +39,7 @@ class UserGetView(RetrieveUpdateAPIView):
     queryset = Usuario.objects.all()
     serializer_class = UserSerializer
 
-    def put(self, request, format=None):
+    def get(self, request, pk, format=None):
         serializer = self.serializer_class(data=request.data)
         print request
         # allowed = Usuario.objects.get(request.user.id)

@@ -13,7 +13,8 @@ from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from django.core.exceptions import ObjectDoesNotExist
 import random
 
-class PerguntaListView(ListCreateAPIView):
+
+class PerguntaListView(ListCreateAPIView): #/list
     """
     Lista as perguntas do Sistema (AdminOnly)
     """
@@ -22,7 +23,7 @@ class PerguntaListView(ListCreateAPIView):
     queryset = Pergunta.objects.all()
     serializer_class = PerguntaSerializer
 
-class PerguntaCreateView(ListAPIView):
+class PerguntaCreateView(ListAPIView):  #/create
     """
     Criacao de perguntas (AdminOnly)
     """
@@ -31,9 +32,7 @@ class PerguntaCreateView(ListAPIView):
     queryset = Pergunta.objects.all()
     serializer_class = PerguntaSerializer
 
-
-
-class PerguntaAlternativaView(RetrieveAPIView):
+class PerguntaAlternativaView(RetrieveAPIView): #/<pk>/alternativa/<pk>
     """
     Valida a resposta do usuario (Qualquer user autenticado em um jogo em andamento)
     """
@@ -69,9 +68,8 @@ class PerguntaAlternativaView(RetrieveAPIView):
             return Response(data={-1:'Vini, para de malandragem!'},status=status.HTTP_400_BAD_REQUEST)
 
         user = Usuario.objects.get(id=request.user.id)
-        if respostaBD=='1':
-            #TODO salvar no log        
-            jogo = Jogo.objects.get(usuario_id=11,is_active=True)
+        if respostaBD=='1':            
+            jogo = Jogo.objects.get(usuario_id=user.id,is_active=True)
             jogo.acertos = jogo.acertos+1
             jogo.save()
 
@@ -80,20 +78,18 @@ class PerguntaAlternativaView(RetrieveAPIView):
             user.save()
 
             return Response(data={1:'Resposta Correta!'},status=status.HTTP_200_OK)
-        else:
-            #TODO salvar no log
+        else:            
             pontos = -10            
             user.pontos = user.pontos + pontos            
             user.save()
 
             return Response(data={0:'Resposta Errada!'},status=status.HTTP_200_OK) #HTTP_406_NOT_ACCEPTABLE
 
-
 class PerguntaDetailView(RetrieveUpdateDestroyAPIView):
     queryset = Pergunta.objects.all()
     serializer_class = PerguntaSerializer
 
-class PerguntaRandomView(ListAPIView):
+class PerguntaRandomView(ListAPIView):  #/random
     permission_classes= (IsAuthenticated,)
     serializer_class = PerguntaSerializer
 

@@ -5,6 +5,9 @@ from rest_framework.permissions import BasePermission
 def response_User_jwt_payload_handler(token, user=None, request=None):
 	jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
 	jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
+	print '****************************************************************'
+	print dir(user)
+	print '****************************************************************'
 	payload = jwt_payload_handler(user)
 	token = jwt_encode_handler(payload)
 	data = {
