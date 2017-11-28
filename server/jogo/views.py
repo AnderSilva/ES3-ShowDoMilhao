@@ -2,6 +2,7 @@ from jogo.models import Jogo
 from user.models import Usuario
 from item.models import UsuarioItem
 from jogo.serializers import JogoSerializer
+from user.serializers import UserStatusSerializer
 
 from rest_framework import status
 from rest_framework.response import Response
@@ -95,18 +96,27 @@ class JogoUsarItemView(UpdateAPIView):
     queryset = Usuario.objects.all()
     serializer_class = UserStatusSerializer
 
-    def put(self, request, item_id):
+    def put(self, request, item_id, id_pergunta):
         item = Item.objects.get(pk=item_id)
         try:        
             usuarioitem = UsuarioItem.objects.get(usuario_id=request.user.id, item=item)
         except ObjectDoesNotExist:
             return Response(data={'Erro' : 'Item Inexistente para consumo'}, status=status.HTTP_404_NOT_FOUND)
 
-        usuarioitem.qtde -= 1        
+        usuarioitem.qtde -= 1
         usuarioitem.save()
 
         if usuarioitem.qtde == 0:
             usuarioitem.delete()
+
+        #atualiza a pergunta do momento
+        jogo = Jogo.objects.get(usuario_id=user.id,is_active=True)
+        jogo.acertos = jogo.acertos+1
+        jogo.save()
+
+        pontos = self.ObtemPontuacao(tempo)
+        user.pontos = user.pontos + pontos
+        user.save()
 
         user = Usuario.objects.get(pk=request.user.id)
         return Response(UserStatusSerializer(user).data,status=status.HTTP_200_OK)

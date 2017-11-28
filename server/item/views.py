@@ -78,7 +78,7 @@ class ItensComprarPontosView(UpdateAPIView):
     queryset = Usuario.objects.all()
     serializer_class = UserStatusSerializer
 
-    def put(self, request, qtde_pontos):
+    def put(self, request, qtde_pontos):        
         user = Usuario.objects.get(pk=request.user.id)
         user.pontos += int(qtde_pontos)
         
