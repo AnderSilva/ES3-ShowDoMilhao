@@ -173,7 +173,7 @@ JWT_AUTH = {
     'JWT_AUTH_HEADER_PREFIX': 'Bearer',
     'JWT_VERIFY_EXPIRATION' : False,
     'JWT_ALLOW_REFRESH': True,
-    'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=18000),
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=180000),
 }
 
 # Logging and error reporting

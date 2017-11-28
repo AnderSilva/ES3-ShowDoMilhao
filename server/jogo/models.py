@@ -5,6 +5,7 @@ from user.models     import Usuario
 from pergunta.models import Pergunta
 
 class Jogo(models.Model):
+    # id     = models.AutoField(primary_key=True)
     usuario     = models.ForeignKey(Usuario , db_column='id_Usuario' ,related_name='jogo_user',on_delete=models.CASCADE)
     continente  = models.IntegerField(null=False,default=1,validators=[MinValueValidator(1),MaxValueValidator(6)]) #numero entre  1 e 6    
     acertos     = models.IntegerField(null=False,default=0)    
@@ -25,9 +26,11 @@ class Jogo(models.Model):
 
 
 class JogoPerguntas(models.Model):
-    jogo_id     = models.ForeignKey(Jogo,     related_name='jogo_perguntas')
+    # jogopergunta_id = models.AutoField(primary_key=True)
+    jogo        = models.ForeignKey(Jogo    , db_column='jogo_id'    ,related_name='jogo_perguntas')
     id_pergunta = models.ForeignKey(Pergunta, db_column='id_pergunta',related_name='perguntas_jogo',on_delete=models.CASCADE)
-    acertou     = models.BooleanField(null=False)
+    acertou     = models.BooleanField(default=0)
+    last_update = models.DateTimeField(auto_now=True)
 
     class Meta:
         managed = True

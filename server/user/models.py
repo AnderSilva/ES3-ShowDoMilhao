@@ -47,8 +47,8 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
                                             _('Entre um username valido.'),
                                             _('invalido'))])
     email     = models.EmailField(_('email'), max_length=255, unique=True)
-    nome      = models.CharField(_('nome'), max_length=255)
-    sobrenome = models.CharField(_('sobrenome'), max_length=255)
+    nome      = models.CharField(_('nome'), max_length=255,null=True)
+    sobrenome = models.CharField(_('sobrenome'), max_length=255,null=True)
     avatar    = models.IntegerField(default=1)
     balao     = models.IntegerField(default=1)
     pontos    = models.IntegerField(default=50)
@@ -63,7 +63,7 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
         help_text=_('Quando o usuario confirmar a conta.'))
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username',]
+    # REQUIRED_FIELDS = ['username',]
 
     objects = UserManager()
 
