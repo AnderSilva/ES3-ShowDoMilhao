@@ -4,15 +4,18 @@ from rest_framework.views import APIView
 from user.models import Usuario
 from jogo.models import Jogo
 from jogo.serializers import JogoSerializer
+from item.serializers import UsuarioItemSerializer
 
 
 class UserStatusSerializer(serializers.ModelSerializer):
     jogo_user = JogoSerializer(many=True)
+    usuario_itens = UsuarioItemSerializer(many=True)
+
 
     class Meta:
         model = Usuario
         fields = ('email','username','nome','sobrenome', 'avatar'
-                  ,'balao','pontos','balao','is_admin','jogo_user')
+                  ,'balao','pontos','balao','is_admin','usuario_itens','jogo_user')
         # extra_kwargs = {
         #     'usuario_id': {'read_only': True}
         # }

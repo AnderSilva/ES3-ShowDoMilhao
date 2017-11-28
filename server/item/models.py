@@ -11,7 +11,7 @@ class Item(models.Model):
 
 
 class UsuarioItem(models.Model):
-    usuario = models.ForeignKey(Usuario)
+    usuario= models.ForeignKey(Usuario , db_column='usuario_id' ,related_name='usuario_itens',on_delete=models.CASCADE)    
     item = models.ForeignKey(Item)
     qtde = models.IntegerField()
 

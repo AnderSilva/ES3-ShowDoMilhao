@@ -82,3 +82,29 @@ class JogoListView(ListAPIView):
     authentication_classes = (JSONWebTokenAuthentication,)
     queryset = Jogo.objects.all()
     serializer_class = JogoSerializer
+
+    
+class JogoUsarItemView(UpdateAPIView):
+    '''
+        Consumo de itens durante o jogo
+    '''
+    permission_classes= (IsAuthenticated,)
+    authentication_classes = (JSONWebTokenAuthentication,)
+    queryset = Usuario.objects.all()
+    serializer_class = UserStatusSerializer
+
+    def put(self, request, item_id):
+        item = Item.objects.get(pk=item_id)
+        try:        
+            usuarioitem = UsuarioItem.objects.get(usuario_id=request.user.id, item=item)
+        except ObjectDoesNotExist:
+            return Response(data={'Erro' : 'Item Inexistente para consumo'}, status=status.HTTP_404_NOT_FOUND)
+
+        usuarioitem.qtde -= 1        
+        usuarioitem.save()
+
+        if usuarioitem.qtde == 0:
+            usuarioitem.delete()
+
+        user = Usuario.objects.get(pk=request.user.id)
+        return Response(UserStatusSerializer(user).data,status=status.HTTP_200_OK)
