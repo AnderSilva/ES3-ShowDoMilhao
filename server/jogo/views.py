@@ -1,4 +1,6 @@
 from jogo.models import Jogo
+from user.models import Usuario
+from item.models import UsuarioItem
 from jogo.serializers import JogoSerializer
 
 from rest_framework import status
