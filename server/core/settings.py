@@ -1,7 +1,6 @@
 """
 Django settings. Environment specific values are loaded from the environment.
 """
-
 import sys
 import os
 import re
@@ -34,26 +33,15 @@ def load_env():
                 val = re.sub(r'\\(.)', r'\1', m3.group(1))
             os.environ.setdefault(key, val)
 load_env()
-# OR, the same with increased verbosity:
-# load_dotenv(dotenv_path, verbose=True)
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 #CLIENT_BASE_DIR = os.path.join(BASE_DIR, '../client')
 
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('DJANGO_SECRET')
-
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = bool_value(os.environ.get('DJANGO_DEBUG'))
-
-# Honor the 'Host' header
 ALLOWED_HOSTS = ['*']
-
-# Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
-
-# Application definition
 INSTALLED_APPS = (
     # 'django.contrib.admin',
     'django.contrib.auth',
@@ -68,7 +56,7 @@ INSTALLED_APPS = (
     'user',
     'pergunta',
     'jogo',
-    # 'api',
+    'item',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -84,29 +72,21 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.common.BrokenLinkEmailsMiddleware',
 )
+
 CORS_ORIGIN_ALLOW_ALL = True
 
 ROOT_URLCONF = 'core.urls'
-
 WSGI_APPLICATION = 'core.wsgi.application'
 
-
-# Parse database configuration from $DATABASE_URL
 DATABASES = {
     'default': dj_database_url.config()
 }
 
-
-# Internationalization
-# https://docs.djangoproject.com/en/dev/topics/i18n/
 LANGUAGE_CODE = 'pt-br'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/dev/howto/static-files/
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
@@ -163,7 +143,6 @@ else:
 # Custom user
 AUTH_USER_MODEL = 'user.Usuario'
 
-
 # REST API
 REST_FRAMEWORK = {
     'UNICODE_JSON': True,
@@ -194,7 +173,7 @@ JWT_AUTH = {
     'JWT_AUTH_HEADER_PREFIX': 'Bearer',
     'JWT_VERIFY_EXPIRATION' : False,
     'JWT_ALLOW_REFRESH': True,
-    'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=18000),
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=180000),
 }
 
 # Logging and error reporting
@@ -235,12 +214,3 @@ LOGGING = {
         },
     }
 }
-
-# def show_toolbar(request):
-#     if not request.is_ajax() and request.user and request.user.username == 'anderson.goma@gmail.com':
-#         return True
-#     return True
-
-# DEBUG_TOOLBAR_CONFIG = {
-#     'SHOW_TOOLBAR_CALLBACK': 'post.settings.show_toolbar',
-# }

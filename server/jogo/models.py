@@ -2,8 +2,10 @@ from django.utils.translation import ugettext_lazy as _
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db       import models
 from user.models     import Usuario
+from pergunta.models import Pergunta
 
 class Jogo(models.Model):
+    # id     = models.AutoField(primary_key=True)
     usuario     = models.ForeignKey(Usuario , db_column='id_Usuario' ,related_name='jogo_user',on_delete=models.CASCADE)
     continente  = models.IntegerField(null=False,default=1,validators=[MinValueValidator(1),MaxValueValidator(6)]) #numero entre  1 e 6    
     acertos     = models.IntegerField(null=False,default=0)    
@@ -22,6 +24,19 @@ class Jogo(models.Model):
         self.continente = aux
         super(Jogo, self).save(*args, **kwargs)
 
+
+class JogoPerguntas(models.Model):
+    # jogopergunta_id = models.AutoField(primary_key=True)
+    jogo        = models.ForeignKey(Jogo    , db_column='jogo_id'    ,related_name='jogo_perguntas')
+    id_pergunta = models.ForeignKey(Pergunta, db_column='id_pergunta',related_name='perguntas_jogo',on_delete=models.CASCADE)
+    acertou     = models.BooleanField(default=0)
+    last_update = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        managed = True
+        db_table = 'jogo_pergunta'        
+
+
 class PontosTimer(models.Model):    
     ate_segundos = models.IntegerField()
     pontos = models.IntegerField()
@@ -29,3 +44,6 @@ class PontosTimer(models.Model):
     class Meta:
         managed = False
         db_table = 'pontos_timer'
+
+
+
